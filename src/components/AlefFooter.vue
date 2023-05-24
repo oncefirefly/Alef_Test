@@ -8,6 +8,7 @@
 
 <style scoped>
 .footer {
+  margin-top: auto;
   height: 76px;
   background: #fafafa;
 

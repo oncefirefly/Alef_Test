@@ -1,0 +1,72 @@
+<script setup lang="ts">
+import { ref } from "vue";
+
+const props = defineProps<{
+  id: string;
+  type: string;
+  label: string;
+  value: "name" | "age";
+  index?: number;
+  width?: string;
+}>();
+
+const emit = defineEmits<{
+  change: [value: string, valueToUpdate: any, index?: number];
+}>();
+
+const inputValue = ref("");
+
+const handleInputChange = () => {
+  emit("change", inputValue.value, props.value, props.index);
+};
+</script>
+
+<template>
+  <label
+    class="alef__label"
+    :for="props.id"
+    :style="{
+      width: props.width + 'px',
+    }"
+  >
+    <span class="alef__label-text">{{ props.label }}</span>
+    <input
+      class="alef__input"
+      v-model="inputValue"
+      :id="props.id"
+      :type="props.type"
+      @change="handleInputChange"
+      required
+    />
+  </label>
+</template>
+
+<style scoped>
+.alef__label {
+  padding: 8px 16px 6px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f1f1f1;
+  border-radius: 4px;
+}
+
+.alef__label-text {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(17, 17, 17, 0.48);
+}
+
+.alef__input {
+  padding: 0;
+  border: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #111111;
+}
+
+.alef__input:focus {
+  outline: none;
+}
+</style>

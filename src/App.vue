@@ -6,8 +6,15 @@ import AlefFooter from "./components/AlefFooter.vue";
 
 <template>
   <AlefHeader />
-  <RouterView />
+  <main class="main">
+    <RouterView />
+  </main>
   <AlefFooter />
 </template>
 
-<style scoped></style>
+<style scoped>
+.main {
+  margin: 30px auto;
+  max-width: 616px;
+}
+</style>

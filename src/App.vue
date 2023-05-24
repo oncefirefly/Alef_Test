@@ -15,6 +15,6 @@ import AlefFooter from "./components/AlefFooter.vue";
 <style scoped>
 .main {
   margin: 30px auto;
-  max-width: 616px;
+  min-width: 616px;
 }
 </style>

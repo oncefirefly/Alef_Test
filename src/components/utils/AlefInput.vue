@@ -42,6 +42,17 @@ const handleInputChange = () => {
 </template>
 
 <style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
 .alef__label {
   padding: 8px 16px 6px;
   display: flex;

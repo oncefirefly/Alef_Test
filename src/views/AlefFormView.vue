@@ -172,7 +172,6 @@ const handleChildrenChange = (
 }
 
 .form__children {
-  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 }
@@ -187,6 +186,7 @@ const handleChildrenChange = (
 }
 
 .form__submit-btn {
+  margin-top: 30px;
   display: flex;
   align-items: center;
   padding: 10px 20px;

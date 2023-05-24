@@ -172,6 +172,7 @@ const handleChildrenChange = (
 }
 
 .form__children {
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 }

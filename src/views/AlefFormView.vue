@@ -8,11 +8,13 @@ import AlefInput from "@/components/utils/AlefInput.vue";
 import type { UserData } from "@/types/types";
 
 const userData = ref<UserData>({
+  id: 1,
   name: "",
   age: "",
 });
 const childrenData = ref<Array<UserData>>([
   {
+    id: 1,
     name: "",
     age: "",
   },
@@ -23,13 +25,20 @@ const storedChildrenData = useChildrenStore();
 
 const handleAddChild = () => {
   childrenData.value.push({
+    id: childrenData.value.length + 1,
     name: "",
     age: "",
   });
 };
 
-const handleRemoveChild = (index: number) => {
-  childrenData.value.splice(index, 1);
+const handleRemoveChild = (name: string) => {
+  console.log(name);
+
+  childrenData.value = childrenData.value.filter(
+    (child) => child.name !== name
+  );
+
+  console.log(childrenData.value);
 };
 
 const handleSubmit = (e: Event) => {
@@ -46,39 +55,39 @@ const handleUserDataChange = (value: string, valueToUpdate: "name" | "age") => {
 const handleChildrenChange = (
   value: string,
   valueToUpdate: "name" | "age",
-  index: number
+  id: number
 ) => {
-  childrenData.value = childrenData.value.map(
-    (child: UserData, idx: number) => {
-      if (idx === index) {
-        child[valueToUpdate] = value;
-
-        return child;
-      }
+  childrenData.value = childrenData.value.map((child: UserData) => {
+    if (child.id === id) {
+      child[valueToUpdate] = value;
 
       return child;
     }
-  );
+
+    return child;
+  });
 };
 </script>
 
 <template>
   <form class="form" @submit="(e) => handleSubmit(e)">
     <div>
-      <h3 class="form__title">Персональные данные</h3>
+      <h3 class="form__title">Персональные данные {{ childrenData }}</h3>
       <div class="form__user">
         <AlefInput
-          id="userName"
+          inputId="userName"
           type="text"
           label="Имя"
-          value="name"
+          :value="userData.name"
+          property="name"
           @change="handleUserDataChange"
         />
         <AlefInput
-          id="userAge"
+          inputId="userAge"
           type="number"
           label="Взораст"
-          value="age"
+          :value="userData.age.toString()"
+          property="age"
           @change="handleUserDataChange"
         />
       </div>
@@ -96,35 +105,36 @@ const handleChildrenChange = (
           Добавить ребенка
         </button>
       </div>
-      <template v-for="(children, index) in childrenData" :key="index">
-        <div class="form__children">
-          <AlefInput
-            :id="children.name + index"
-            type="text"
-            label="Имя"
-            value="name"
-            :index="index"
-            width="260"
-            @change="handleChildrenChange"
-          />
-          <AlefInput
-            :id="children.name + index"
-            type="number"
-            label="Взораст"
-            value="age"
-            :index="index"
-            width="260"
-            @change="handleChildrenChange"
-          />
-          <button
-            class="form__remove-child-btn"
-            type="button"
-            @click="handleRemoveChild(index)"
-          >
-            Удалить
-          </button>
-        </div>
-      </template>
+
+      <div class="form__children" v-for="child in childrenData" :key="child.id">
+        <AlefInput
+          :inputId="'childName' + child.id"
+          :id="child.id"
+          type="text"
+          label="Имя"
+          property="name"
+          :value="child.name"
+          width="260"
+          @change="handleChildrenChange"
+        />
+        <AlefInput
+          :inputId="'childAge' + child.id"
+          :id="child.id"
+          type="number"
+          label="Взораст"
+          property="age"
+          :value="child.age.toString()"
+          width="260"
+          @change="handleChildrenChange"
+        />
+        <button
+          class="form__remove-child-btn"
+          type="button"
+          @click="handleRemoveChild(child.name)"
+        >
+          Удалить
+        </button>
+      </div>
     </div>
     <button class="form__submit-btn" type="submit">Сохранить</button>
   </form>

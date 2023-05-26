@@ -2,29 +2,30 @@
 import { ref } from "vue";
 
 const props = defineProps<{
-  id: string;
+  id?: number;
+  inputId: string;
   type: string;
   label: string;
-  value: "name" | "age";
-  index?: number;
+  property: "name" | "age";
+  value: string;
   width?: string;
 }>();
 
 const emit = defineEmits<{
-  change: [value: string, valueToUpdate: any, index?: number];
+  change: [value: string, valueToUpdate: any, id?: number];
 }>();
 
-const inputValue = ref("");
+const inputValue = ref(props.value);
 
 const handleInputChange = () => {
-  emit("change", inputValue.value, props.value, props.index);
+  emit("change", inputValue.value, props.property, props.id);
 };
 </script>
 
 <template>
   <label
     class="alef__label"
-    :for="props.id"
+    :for="props.inputId"
     :style="{
       width: props.width + 'px',
     }"
@@ -33,7 +34,7 @@ const handleInputChange = () => {
     <input
       class="alef__input"
       v-model="inputValue"
-      :id="props.id"
+      :id="props.inputId"
       :type="props.type"
       @change="handleInputChange"
       required
